@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8.9)
+project(ML)
+file(GLOB SOURCES "src/*")
+add_executable(machine_learning ${SOURCES} ${KNN})
+add_subdirectory (knn)
+target_link_libraries (machine_learning LINK_PUBLIC KNN)
