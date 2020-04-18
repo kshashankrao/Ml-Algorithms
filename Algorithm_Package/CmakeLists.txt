@@ -1,0 +1,4 @@
+file(GLOB_RECURSE KNN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/knn/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/knn/*.h")
+add_library (alg ${KNN_FILES} ${LINEAR_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${KNN_FILES})
+target_include_directories (alg PUBLIC knn)
