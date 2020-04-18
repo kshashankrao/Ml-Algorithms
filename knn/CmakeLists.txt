@@ -1,3 +1,0 @@
-file(GLOB KNN_FILES "*")
-add_library (KNN ${KNN_FILES})
-target_include_directories (KNN PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -6,4 +6,5 @@
 # Algorithm Implemented
 
 * KNN
+* Linear Regression - Single independent variable 
 * TO DO

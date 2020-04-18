@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 2.8.9)
-project(ML)
+project(Machine_Learning)
 file(GLOB SOURCES "src/*")
-add_executable(machine_learning ${SOURCES} ${KNN})
-add_subdirectory (knn)
-target_link_libraries (machine_learning LINK_PUBLIC KNN)
+add_executable(ml ${SOURCES})
+
+# Include the path of packages in main.cpp
+include_directories(Algorithm_Packages)
+include_directories(Helper_Packages)
+
+# Define the location of packages containing the cmakelist
+add_subdirectory (Algorithm_Packages)
+add_subdirectory (Helper_Packages)
+
+target_link_libraries (ml PUBLIC Helper_Packages Algorithm_Packages)
