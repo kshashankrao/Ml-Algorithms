@@ -1,0 +1,5 @@
+file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*.h")
+add_library (Helper_Packages ${filenames})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
+target_include_directories (Helper_Packages PUBLIC )
+

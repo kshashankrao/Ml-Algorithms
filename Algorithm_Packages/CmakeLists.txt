@@ -1,0 +1,6 @@
+#file(GLOB_RECURSE KNN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/knn/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/knn/*.h")
+file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*.h")
+add_library (Algorithm_Packages ${filenames})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
+target_include_directories (Algorithm_Packages PUBLIC)
+
