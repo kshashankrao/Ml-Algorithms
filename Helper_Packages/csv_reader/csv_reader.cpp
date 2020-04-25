@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include "csv_reader.h"
+#include <iostream>
 
 using namespace std;
 
