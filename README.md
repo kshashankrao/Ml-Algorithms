@@ -7,4 +7,4 @@
 
 * KNN
 * Linear Regression - Single independent variable 
-* TO DO
+* Breadth First Search (Graph Traversal)
