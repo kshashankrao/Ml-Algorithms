@@ -6,7 +6,7 @@ add_executable(ml ${SOURCES})
 # Include the path of packages in main.cpp
 include_directories(Algorithm_Packages)
 include_directories(Helper_Packages)
-
+include_directories(Deep_Learning)
 # Define the location of packages containing the cmakelist
 add_subdirectory (Algorithm_Packages)
 add_subdirectory (Helper_Packages)

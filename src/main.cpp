@@ -1,29 +1,17 @@
-#include "linear_regression/linear_regression.h"
 #include<vector>
 #include<string>
 #include <iostream>
-
-
+#include "graph_search/dfs/dfs.h"
 using namespace std;
+
 int main()
 {
-	bool is_train = false;
-	linear_regression lr("a.csv", 50, 0.0001, 0, 0);
-	if (is_train == true)
-	{
-		lr.fit();
-	}
-
-	else
-	{
-		string input;
-		float input_float;
-		while (getline(std::cin, input) && input != "quit")
-		{
-			input_float = stof(input);
-			lr.predict(input_float);
-		}
-	}
-	
-	
+	vector<vector<int>> map {{ 1, 1, 0, 0, 0 },
+							 { 1, 1, 0, 0, 0 },
+							 { 0, 0, 0, 1, 1 },
+							 { 0, 0, 0, 0, 0 },
+							 { 0, 0, 0, 0, 0 } };
+	DFS dfs;
+	dfs.dfs_doit(map);
+	return 1;
 }
