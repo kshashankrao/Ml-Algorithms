@@ -7,4 +7,11 @@
 
 * KNN
 * Linear Regression - Single independent variable 
-* Breadth First Search (Graph Traversal)
+* Conncected Components
+* Graph Search
+	1. Breadth First Search
+	2. Depth First Search	
+* Sort
+	1. Bubble Sort
+	2. Merge Sort
+	3. Shell Sort
