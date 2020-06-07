@@ -1,63 +1,106 @@
 #include "merge_sort.h"
 #include <iostream>
-
+#include "print_function.h"
+#include<vector>
 using namespace std;
-void merge_sort(int *arr, bool ascending, int n )
+
+int* merge_sort(int arr[], int n)
 {
-	int sorted[N];
-	int start, end, mid;
-	// Initialize the total number of groups 
-	for (int i = 1; i < n - 1; i = 2 * i)
+	static int tmp[N];
+	vector<int> pos;
+	/* Pointers to remove negative values*/
+	int* s_ptr, * e_ptr;
+	s_ptr = tmp;
+	e_ptr = tmp + N - 1;
+
+	memset(tmp, -1, sizeof(int) * N);
+	memcpy(tmp, arr, sizeof(int) * n);
+
+	int start;
+	int end;
+	int mid;
+
+	int* sorted;
+
+	for (int i = 1; i < N - 1; i = 2 * i)
 	{
-		// Split the array into groups
-		for (int j = 0; j < n - 1; j += 2 * i)
+		for (int j = 0; j < N - 1; j += 2 * i)
 		{
 			start = j;
-			end = (j + 2 * i) - 1;
-			mid = ((start + end) / 2);
-			merge(arr, start, end, mid, sorted);
+			end = (start + 2 * i) - 1;
+			if (end > (n - 1))
+			{
+				end = n;
+			}
+			mid = (start + end) / 2;
+			sorted = merge(tmp, start, mid, end);
+			memcpy(tmp, sorted, sizeof(int) * N);
 		}
-		// Copy the sorted array to original for next iteration
-		memcpy(arr, sorted, sizeof(int) * n);
+
 	}
+	removenegative(tmp, s_ptr, e_ptr);
+
+	return tmp;
 }
 
-void merge(int* arr, int start1, int end2, int end1, int *sorted)
+int* merge(int arr[], int start, int mid, int end)
 {
-	int start2 = end1 + 1;
-	int i = start1;
-	int j = start2;
-	int k = start1;
+	static int merged[N];
+	memset(merged, -1, sizeof(int) * N);
+	memcpy(merged, arr, sizeof(int) * N);
+	
+	int i = start;
+	int j = mid + 1;
+	int k = start;
+	int end1, end2;
 
-
-	while (i <= end1 && j <= end2)
-	{	
-		int num1 = *(arr + i);
-		int num2 = *(arr + j);
+	while (i <= mid && j <= end)
+	{
 		if (*(arr + i) <= *(arr + j))
 		{
-			*(sorted + k) = *(arr + i);
+			merged[k] = *(arr + i);
 			i++;
 		}
 		else
 		{
-			*(sorted + k) = *(arr + j);
+			merged[k] = *(arr + j);
 			j++;
 		}
 		k++;
 	}
 
-	while (i <= end1)
+	while (i <= mid)
 	{
-		*(sorted + k) = *(arr + i);
+		merged[k] = *(arr + i);
 		i++;
 		k++;
 	}
 
-	while (j <= end2)
+	while (j <= end)
 	{
-		*(sorted + k) = *(arr + j);
+		merged[k] = *(arr + j);
 		j++;
 		k++;
+	}
+	
+	return merged;
+}
+
+void removenegative(int a[], int* p, int* q)
+{
+	int* x;
+	x = &a[0];
+	while (p <= q)
+	{
+		if (*p >= 0)
+		{
+			*x = *p;
+			x++;
+		}
+		p++;
+	}
+	for (; x <= q; x++)
+	{
+		*x = -1;
 	}
 }
