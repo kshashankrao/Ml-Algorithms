@@ -31,4 +31,6 @@ int shellsort_main()
 	{
 		cout << arr[i] << endl;
 	}
+
+	return 1;
 }
