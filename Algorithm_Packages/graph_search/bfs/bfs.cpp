@@ -13,7 +13,7 @@ void BFS::set_grid(vector<vector<int>> map)
 
 void BFS::bfs_doit()
 {
-	print_int_2d(this->grid);
+	print_2d_vector(this->grid);
 	bool visited[GRID_ROWS][GRID_COLS];
 	int total_clusters = 0;
 
