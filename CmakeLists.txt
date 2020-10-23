@@ -1,14 +1,23 @@
 cmake_minimum_required(VERSION 2.8.9)
-project(Machine_Learning)
+project(Machine_Learning C CXX)
 file(GLOB SOURCES "src/*")
 add_executable(ml ${SOURCES})
 
 # Include the path of packages in main.cpp
-include_directories(Algorithm_Packages)
-include_directories(Helper_Packages)
-include_directories(Deep_Learning)
-# Define the location of packages containing the cmakelist
-add_subdirectory (Algorithm_Packages)
-add_subdirectory (Helper_Packages)
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/helper")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/image_processing")
 
-target_link_libraries (ml PUBLIC Helper_Packages Algorithm_Packages)
+# Define the location of packages containing the cmakelist
+add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
+add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/helper")
+add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/image_processing")
+
+target_link_libraries (ml PUBLIC helper algorithms image_processing)
+
+# Adding opencv
+set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/helper/opencv")
+include_directories("${OPENCV_DIR}/include")
+link_directories("${OPENCV_DIR}/lib")
+file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+target_link_libraries(ml PUBLIC "${OPENCV_LIBRARIES}")

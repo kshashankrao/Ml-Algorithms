@@ -1,17 +1,10 @@
-#include<vector>
-#include<string>
-#include <iostream>
-#include "graph_search/dfs/dfs.h"
+#include "region_growing/region_growing.h"
+
 using namespace std;
 
 int main()
 {
-	vector<vector<int>> map {{ 1, 1, 0, 0, 0 },
-							 { 1, 1, 0, 0, 0 },
-							 { 0, 0, 0, 1, 1 },
-							 { 0, 0, 0, 0, 0 },
-							 { 0, 0, 0, 0, 0 } };
-	DFS dfs;
-	dfs.dfs_doit(map);
-	return 1;
+	RegionGrowing regionGrowing;
+	regionGrowing.run_test();
+	return 0;
 }
