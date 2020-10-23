@@ -6,12 +6,12 @@ add_executable(ml ${SOURCES})
 # Include the path of packages in main.cpp
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/helper")
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/image_processing")
+#include_directories("${CMAKE_CURRENT_SOURCE_DIR}/image_processing")
 
 # Define the location of packages containing the cmakelist
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/helper")
-add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/image_processing")
+#add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/image_processing")
 
 target_link_libraries (ml PUBLIC helper algorithms image_processing)
 
