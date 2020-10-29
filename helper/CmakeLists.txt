@@ -2,9 +2,5 @@ file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp" "${CMAKE_CURRE
 add_library (helper ${filenames})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 
-set("BOOST_INCLUDE_DIRS" "D:/Software/boost_1_55_0")
-include_directories(${BOOST_INCLUDE_DIRS})
 
 target_include_directories (helper PUBLIC )
-
-
