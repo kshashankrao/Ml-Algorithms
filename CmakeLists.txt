@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.8.9)
 project(Machine_Learning C CXX)
+
+if(MSVC)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
+endif(MSVC)
+
 file(GLOB SOURCES "src/*")
 add_executable(ml ${SOURCES})
 
