@@ -11,13 +11,15 @@ add_executable(ml ${SOURCES})
 # Include the path of packages in main.cpp
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/helper")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/examples")
 
 # Define the location of packages containing the cmakelist
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/helper")
+add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/examples")
 
 set_target_properties(ml PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries (ml PUBLIC helper algorithms )
+target_link_libraries (ml PUBLIC helper algorithms examples)
 
 # Adding opencv
 set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/helper/opencv")
