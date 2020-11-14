@@ -1,6 +1,11 @@
-#file(GLOB_RECURSE KNN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/knn/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/knn/*.h")
-file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*.h")
+file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*/*.h")
 add_library (algorithms ${filenames})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 target_include_directories (algorithms PUBLIC)
 
+# Adding opencv
+set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/helper/opencv")
+include_directories("${OPENCV_DIR}/include")
+link_directories("${OPENCV_DIR}/lib")
+file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")

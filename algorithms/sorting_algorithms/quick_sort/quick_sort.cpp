@@ -1,6 +1,6 @@
 #include <iostream>
 #include "quick_sort.h"
-#include "sort/bubble_sort/bubble_sort.h" // To use swap
+#include "sorting_algorithms/bubble_sort/bubble_sort.h" // To use swap
 
 int partition(int arr[], int low, int high)
 {

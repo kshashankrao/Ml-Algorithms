@@ -1,7 +1,7 @@
 #include <math.h>    
 #include <stdio.h>
 #include <assert.h>
-#include "../../src/Points.h"
+#include "../../../src/Points.h"
 
 double euclidean_distance(Point p1, Point p2)
 {
