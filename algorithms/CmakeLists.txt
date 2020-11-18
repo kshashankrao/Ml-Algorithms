@@ -9,3 +9,8 @@ include_directories("${OPENCV_DIR}/include")
 link_directories("${OPENCV_DIR}/lib")
 file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
 target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
+
+# Adding eigen
+set(Eigen3_DIR "${CMAKE_SOURCE_DIR}/helper/eigen-3.3.8/")
+include_directories("${Eigen3_DIR}")
+
