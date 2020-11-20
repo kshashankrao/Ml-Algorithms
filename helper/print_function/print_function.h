@@ -5,8 +5,12 @@
 
 using namespace std;
 
+template <typename T>
+void coutP(T s)
+{
+	cout << s << endl;
+}
 /*	Print 1d vector*/
-
 template <typename T>
 void print_1d_vector(vector<T> const& input)
 {
