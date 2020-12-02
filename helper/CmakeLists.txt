@@ -1,8 +1,7 @@
-file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/print_function/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/print_function/*.h")
+file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*.h")
 add_library (helper ${filenames} )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 target_include_directories (helper PUBLIC )
-
 set_target_properties(helper PROPERTIES LINKER_LANGUAGE CXX)
 
 

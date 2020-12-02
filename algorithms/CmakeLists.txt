@@ -4,13 +4,14 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 target_include_directories (algorithms PUBLIC)
 
 # Adding opencv
-set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/helper/opencv")
+set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
 include_directories("${OPENCV_DIR}/include")
 link_directories("${OPENCV_DIR}/lib")
-file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
 target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
 
 # Adding eigen
-set(Eigen3_DIR "${CMAKE_SOURCE_DIR}/helper/eigen-3.3.8/")
+set(Eigen3_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/eigen-3.3.8/")
 include_directories("${Eigen3_DIR}")
 
