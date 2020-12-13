@@ -5,6 +5,12 @@ class simple_rect_fitting
 {
 public:
 
+	enum rect_fit_type
+	{
+		ALL,
+		LARGEST
+	};
+
 	struct rect
 	{
 		int x1 = 0;
@@ -43,8 +49,12 @@ public:
 
 private:
 
-	std::vector<rect> fit(const cv::Mat &image);
-	void findx2y2(const cv::Mat &image, rect &rectCoord, std::vector<bool> &visited);
+	std::vector<rect> fit(const cv::Mat &image, rect_fit_type t);
+	std::vector<rect> get_all_rects(const cv::Mat& image);
+	void findx2y2(const cv::Mat& image, rect& rectCoord, std::vector<bool>& visited);
+	std::vector<rect> get_largest_rect(const cv::Mat& image);
+
+	
 
 
 };

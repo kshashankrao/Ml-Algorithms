@@ -8,7 +8,12 @@ set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
 include_directories("${OPENCV_DIR}/include")
 link_directories("${OPENCV_DIR}/lib")
 #file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
-file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
+#Debug
+#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
+
+#Release
+file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
+
 target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
 
 # Adding eigen
