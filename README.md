@@ -7,4 +7,3 @@
 
 Documented here: https://github.com/kshashankrao/Ml-Algorithms/wiki
 
-# Wishlist
