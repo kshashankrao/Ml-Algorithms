@@ -12,10 +12,9 @@ void simple_rect_fitting::process(cv::Mat &image)
     cv::Mat orig = image.clone();
     cv::cvtColor(image, image, cv::COLOR_BGR2GRAY);
     cv::threshold(image, image, 128, 255, cv::THRESH_BINARY);
-    std::vector<rect> coords = fit(image);
+    std::vector<rect> coords = fit(image, rect_fit_type::ALL);
     cv::cvtColor(image, image, cv::COLOR_GRAY2BGR);
 
-    std::cout << coords.size();
     for (int i = 0; i < coords.size(); i++)
     {
         cv::Rect rec(cv::Point(coords[i].x1, coords[i].y1), cv::Point(coords[i].x2, coords[i].y2));
@@ -26,7 +25,19 @@ void simple_rect_fitting::process(cv::Mat &image)
     cv::waitKey(0);
  }
 
-std::vector<simple_rect_fitting::rect> simple_rect_fitting::fit(const cv::Mat& image)
+std::vector<simple_rect_fitting::rect> simple_rect_fitting::fit(const cv::Mat& image, rect_fit_type t)
+{
+    if (t == rect_fit_type::ALL)
+    {
+        return get_all_rects(image);
+    }
+    else
+    {
+        // TODO: return get_largest_rect(image);
+    }
+}
+
+std::vector<simple_rect_fitting::rect> simple_rect_fitting::get_all_rects(const cv::Mat& image)
 {
     /* Algorithm
        1. The first detected white pixel will be x1,y1.
@@ -59,7 +70,7 @@ std::vector<simple_rect_fitting::rect> simple_rect_fitting::fit(const cv::Mat& i
     return rectCoords;
 }
 
-void simple_rect_fitting::findx2y2(const cv::Mat& image, rect &rectCoord, std::vector<bool>& visited)
+void simple_rect_fitting::findx2y2(const cv::Mat& image, rect& rectCoord, std::vector<bool>& visited)
 {
     for (int i = rectCoord.y1; i < image.rows; i++)
     {
@@ -79,4 +90,11 @@ void simple_rect_fitting::findx2y2(const cv::Mat& image, rect &rectCoord, std::v
             visited[image.cols * i + j] = true;
         }
     }
+}
+
+std::vector<simple_rect_fitting::rect> simple_rect_fitting::get_largest_rect(const cv::Mat& image)
+{
+    // TODO
+    std::vector<simple_rect_fitting::rect> a;
+    return a;
 }
