@@ -135,7 +135,7 @@ float best_rect_fit::get_angle_major_axis(cv::Point c, std::vector<cv::Point> co
     return angle;
 }
 
-std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid, const cv::Mat &image)
+std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid)
 {
     std::vector<cv::Point> edge_pts;
     edge_pts.resize(4);

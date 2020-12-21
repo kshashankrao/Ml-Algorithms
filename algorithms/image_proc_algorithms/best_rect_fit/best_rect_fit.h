@@ -4,44 +4,66 @@
 class best_rect_fit
 {
 public:
-	struct rect
-	{
-		int x1 = 0;
-		int y1 = 0;
-		int x2 = 0;
-		int y2 = 0;
-		int w = 0;
-		int h = 0;
-
-		int get_width()
-		{
-			w = x2 - x1;
-			return w;
-		}
-
-		int get_height()
-		{
-			h = y2 - y1;
-			return h;
-		}
-
-		int area()
-		{
-			get_height();
-			get_width();
-			return h * w;
-		}
-	};
-
+	/*
+	* Brief: Main function to process the rectangle fitting
+	* Input: Image
+	* Output: Displays image with overlays
+	*/
 	void process(const cv::Mat& image);
-private:
-	std::vector<std::vector<cv::Point>> get_contour_features(const cv::Mat& image);
-	void filter_contour_features(const cv::Mat& image, std::vector<std::vector<cv::Point>>& contours);
-	cv::Point get_centroid(std::vector<cv::Point> contour);
-	float get_angle_major_axis(cv::Point c, std::vector<cv::Point> contour);
-	std::vector<cv::Point> lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid, const cv::Mat& image);
-	std::vector<cv::Point> get_coord_outscribe_rect(std::vector<cv::Point> e, float angle);
-	float euclidean_dist(cv::Point p1, cv::Point p2);
-	float perp_dist_from_line_to_point(cv::Point p1, cv::Point p2, cv::Point p0);
 
+private:
+	/*
+	* Brief: Find all the contours in a given image
+	* Input: Image
+	* Output: Vector of contours
+	*/
+	std::vector<std::vector<cv::Point>> get_contour_features(const cv::Mat& image);
+	
+	/*
+	* Brief: Remove very large contours
+	* Input: Image, vector of contours
+	*/
+	void filter_contour_features(const cv::Mat& image, std::vector<std::vector<cv::Point>>& contours);
+	
+	/*
+	* Brief: Calculate the centroid of the contour
+	* Input: Contour
+	* Output: Centroid of the contour
+	*/
+	cv::Point get_centroid(std::vector<cv::Point> contour);
+
+	/*
+	* Brief: Calculates the angle of major axis at x axis
+	* Input: Centroid, contour
+	* Output: Angle 
+	*/
+	float get_angle_major_axis(cv::Point c, std::vector<cv::Point> contour);
+	
+	/*
+	* Brief: Find the points farthest from major and minor axis
+	* Input: Contour points, major axis angle, minor axis angle, centroid point
+	* Output: Vector containing the four points
+	*/
+	std::vector<cv::Point> lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid);
+	
+	/*
+	* Brief: Calculate the coordinates of the outscribed rectangle
+	* Input: Farthest points from major and minor axis, major axis angle
+	* Output: Rectangle coordinates
+	*/
+	std::vector<cv::Point> get_coord_outscribe_rect(std::vector<cv::Point> e, float angle);
+	
+	/*
+	* Brief: Calculate the euclidean distance
+	* Input: Point 1, Poin 2
+	* Output: Distance between 2 points
+	*/
+	float euclidean_dist(cv::Point p1, cv::Point p2);
+	
+	/*
+	* Brief: Calculates the perpendicular distance between the line and a given point
+	* Input: The two end coordinates of line, point from which distance is to be found
+	* Output: Perpendicular distance
+	*/
+	float perp_dist_from_line_to_point(cv::Point p1, cv::Point p2, cv::Point p0);
 };	
