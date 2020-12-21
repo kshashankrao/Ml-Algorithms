@@ -28,7 +28,7 @@ void best_rect_fit::process(const cv::Mat& image)
         /* Minor axis is perpendicular to major axis. */
         float minor_axis_angle = 1.57 + major_axis_angle;
         /* Get the farthest edge points from the minor and major axis*/
-        auto edge_pts_major_axis = lower_higer_edge_pts_major_axis(contours[i], major_axis_angle, minor_axis_angle, centroid, image);
+        auto edge_pts_major_axis = lower_higer_edge_pts_major_axis(contours[i], major_axis_angle, minor_axis_angle, centroid);
         
         /* Get the coordinates of the outscribed rectangle of the contour*/
         auto outscribed_pts = get_coord_outscribe_rect(edge_pts_major_axis, major_axis_angle);
