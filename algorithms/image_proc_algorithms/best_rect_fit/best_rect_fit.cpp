@@ -29,21 +29,34 @@ void best_rect_fit::process(const cv::Mat& image)
         float minor_axis_angle = 1.57 + major_axis_angle;
         /* Get the farthest edge points from the minor and major axis*/
         auto edge_pts_major_axis = lower_higer_edge_pts_major_axis(contours[i], major_axis_angle, minor_axis_angle, centroid);
+        auto &farthest_edge_pts = edge_pts_major_axis[0];
         
         /* Get the coordinates of the outscribed rectangle of the contour*/
-        auto outscribed_pts = get_coord_outscribe_rect(edge_pts_major_axis, major_axis_angle);
+        auto outscribed_pts = get_coord_outscribe_rect(farthest_edge_pts, major_axis_angle);
              
+        /* Calculate the coefficients of least square */
+        auto coeffK = calc_coeff(edge_pts_major_axis[1], edge_pts_major_axis[2], edge_pts_major_axis[3], edge_pts_major_axis[4], major_axis_angle);
+
+        /* Calculate the coordinates of inscribed rectangle */
+        auto inscribed_pts = get_coord_inscribe_rect(coeffK, major_axis_angle);
+
         /* Draw rectangle line */
         cv::line(image, outscribed_pts[0], outscribed_pts[1], cv::Scalar(255, 0, 0), 3);
         cv::line(image, outscribed_pts[1], outscribed_pts[2], cv::Scalar(255, 0, 0), 3);
         cv::line(image, outscribed_pts[2], outscribed_pts[3], cv::Scalar(255, 0, 0), 3);
         cv::line(image, outscribed_pts[3], outscribed_pts[0], cv::Scalar(255, 0, 0), 3);
 
+        /* Draw rectangle line */
+        cv::line(image, inscribed_pts[0], inscribed_pts[1], cv::Scalar(255, 0, 0), 3);
+        cv::line(image, inscribed_pts[1], inscribed_pts[2], cv::Scalar(255, 0, 0), 3);
+        cv::line(image, inscribed_pts[2], inscribed_pts[3], cv::Scalar(255, 0, 0), 3);
+        cv::line(image, inscribed_pts[3], inscribed_pts[0], cv::Scalar(255, 0, 0), 3);
+
         /* Draw farthest points*/
-        cv::circle(image, edge_pts_major_axis[0], 2, cv::Scalar(0, 0, 255), 2);
-        cv::circle(image, edge_pts_major_axis[1], 2, cv::Scalar(0, 0, 255), 2);
-        cv::circle(image, edge_pts_major_axis[2], 2, cv::Scalar(255, 0, 255), 2);
-        cv::circle(image, edge_pts_major_axis[3], 2, cv::Scalar(255, 0, 255), 2);
+        cv::circle(image, farthest_edge_pts[0], 2, cv::Scalar(0, 0, 255), 2);
+        cv::circle(image, farthest_edge_pts[1], 2, cv::Scalar(0, 0, 255), 2);
+        cv::circle(image, farthest_edge_pts[2], 2, cv::Scalar(255, 0, 255), 2);
+        cv::circle(image, farthest_edge_pts[3], 2, cv::Scalar(255, 0, 255), 2);
 
         /* Draw the major axis */
         cv::Point p1;
@@ -131,13 +144,17 @@ float best_rect_fit::get_angle_major_axis(cv::Point c, std::vector<cv::Point> co
 
     numer = 2 * numer;
     float angle = 0.5f * atan2(numer, denom);
-    
+
     return angle;
 }
 
-std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid)
+std::vector<std::vector<cv::Point>> best_rect_fit::lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid)
 {
     std::vector<cv::Point> edge_pts;
+    std::vector<cv::Point> major_upper_pts;
+    std::vector<cv::Point> major_lower_pts;
+    std::vector<cv::Point> minor_upper_pts;
+    std::vector<cv::Point> minor_lower_pts;
     edge_pts.resize(4);
 
     float major_upper_pt_max_dist = 0;
@@ -164,6 +181,7 @@ std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std:
         float f1 = (contour[i].y - centroid.y) - (tan(angle1) * (contour[i].x - centroid.x));
         if (f1 > 0)
         {
+            major_upper_pts.push_back(contour[i]);
             if (perp_dist_major > major_upper_pt_max_dist)
             {
                 major_upper_pt_max_dist = perp_dist_major;
@@ -172,6 +190,7 @@ std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std:
         }
         else
         {
+            major_lower_pts.push_back(contour[i]);
             if (perp_dist_major > major_lower_pt_max_dist)
             {
                 major_lower_pt_max_dist = perp_dist_major;
@@ -185,6 +204,7 @@ std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std:
         float f2 = (contour[i].y - centroid.y) + (cotTheta * (contour[i].x - centroid.x));
         if (f2 > 0)
         {
+            minor_upper_pts.push_back(contour[i]);
             if (perp_dist_minor > minor_upper_pt_max_dist)
             {
                 minor_upper_pt_max_dist = perp_dist_minor;
@@ -193,6 +213,7 @@ std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std:
         }
         else
         {
+            minor_lower_pts.push_back(contour[i]);
             if (perp_dist_minor > minor_lower_pt_max_dist)
             {
                 minor_lower_pt_max_dist = perp_dist_minor;
@@ -201,12 +222,23 @@ std::vector<cv::Point> best_rect_fit::lower_higer_edge_pts_major_axis(const std:
         }
     }
 
+    /* Create an output vector and dump all the values */
+
+    std::vector<std::vector<cv::Point>> o;
+    o.resize(5);
+    
     edge_pts[1] = major_upper_pt;
     edge_pts[0] = major_lower_pt;
     edge_pts[2] = minor_upper_pt;
     edge_pts[3] = minor_lower_pt;
+    
+    o[0] = edge_pts;
+    o[1] = major_upper_pts;
+    o[2] = major_lower_pts;
+    o[3] = minor_upper_pts;
+    o[4] = minor_lower_pts;
 
-    return edge_pts;
+    return o;
 }
 
 std::vector<cv::Point> best_rect_fit::get_coord_outscribe_rect(std::vector<cv::Point> e, float angle)
@@ -244,10 +276,61 @@ std::vector<cv::Point> best_rect_fit::get_coord_outscribe_rect(std::vector<cv::P
     return pts;
 }
 
+std::vector<cv::Point> best_rect_fit::get_coord_inscribe_rect(std::vector<float> k, float angle)
+{
+    std::vector<cv::Point> pts;
+    pts.resize(4);
+
+    cv::Point p1;
+    cv::Point p2;
+    cv::Point p3;
+    cv::Point p4;
+
+    float slope = tan(angle);
+
+    /* Top left */
+    p1.x = (slope * k[0] - k[2]) / (1 + powf(slope, 2));
+    p1.y = -(k[0] + slope * k[2]) / (1 + powf(slope, 2));
+
+    /* Top right */
+    p2.x = (slope * k[0] - k[3]) / (1 + powf(slope, 2));
+    p2.y = -(k[0] + slope * k[3]) / (1 + powf(slope, 2));
+    
+    /* Bottom left */
+    p3.x = (slope * k[1] - k[2]) / (1 + powf(slope, 2));
+    p3.y = -(k[1] + slope * k[2]) / (1 + powf(slope, 2));
+    
+    /* Bottom Right */
+    p4.x = (slope * k[1] - k[3]) / (1 + powf(slope, 2));
+    p4.y = -(k[1] + slope * k[3]) / (1 + powf(slope, 2));
+
+    return {p1, p2, p4, p3};
+}
+
 float best_rect_fit::euclidean_dist(cv::Point p1, cv::Point p2)
 {
     float dist = sqrtf(powf((p2.x - p1.x), 2) + powf((p2.y - p1.y), 2));
     return dist;
+}
+
+std::vector<float> best_rect_fit::calc_coeff(std::vector<cv::Point> s1, std::vector<cv::Point> s2, std::vector<cv::Point> s3, std::vector<cv::Point> s4, float angle)
+{
+    float k1, k2, k3, k4;
+    float slope = 1 / tan(angle);
+
+    auto sum1 = sum_contour(s1);
+    k1 = (slope * sum1.x - sum1.y) / s1.size();
+    
+    auto sum2 = sum_contour(s2);
+    k2 = (slope * sum2.x - sum2.y) / s2.size();
+    
+    auto sum3 = sum_contour(s3);
+    k3 = (sum3.x + slope * sum3.y) / -(s3.size());
+
+    auto sum4 = sum_contour(s4);
+    k4 = (sum4.x + slope * sum4.y) / -(s4.size());
+
+    return {k1, k2, k3, k4};
 }
 
 float best_rect_fit::perp_dist_from_line_to_point(cv::Point p1, cv::Point p2, cv::Point p0)
@@ -256,4 +339,18 @@ float best_rect_fit::perp_dist_from_line_to_point(cv::Point p1, cv::Point p2, cv
     float denom = std::sqrtf(powf((p2.x - p1.x), 2) + powf((p2.y - p1.y), 2));
     float dist = numer / denom;
     return dist;
+}
+
+cv::Point best_rect_fit::sum_contour(std::vector<cv::Point> v)
+{
+    float sum_x = 0;
+    float sum_y = 0;
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        sum_x += v[i].x;
+        sum_y += v[i].y;
+    }
+
+    return cv::Point(sum_x, sum_y);
 }

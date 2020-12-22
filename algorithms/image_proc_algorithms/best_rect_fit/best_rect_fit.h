@@ -44,7 +44,7 @@ private:
 	* Input: Contour points, major axis angle, minor axis angle, centroid point
 	* Output: Vector containing the four points
 	*/
-	std::vector<cv::Point> lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid);
+	std::vector<std::vector<cv::Point>> lower_higer_edge_pts_major_axis(const std::vector<cv::Point> &contour, float angle1, float angle2, cv::Point centroid);
 	
 	/*
 	* Brief: Calculate the coordinates of the outscribed rectangle
@@ -54,11 +54,24 @@ private:
 	std::vector<cv::Point> get_coord_outscribe_rect(std::vector<cv::Point> e, float angle);
 	
 	/*
+	* Brief: Calculate the coordinates of the inscribed rectangle
+	* Input: 4 coefficients of least square equation, major axis angle
+	* Output: Rectangle coordinates
+	*/
+	std::vector<cv::Point> get_coord_inscribe_rect(std::vector<float> k, float angle);
+	/*
 	* Brief: Calculate the euclidean distance
 	* Input: Point 1, Poin 2
 	* Output: Distance between 2 points
 	*/
 	float euclidean_dist(cv::Point p1, cv::Point p2);
+
+	/*
+	* Brief: Calculate the coefficients of the least square equation
+	* Input: 4 vectors containing the points
+	* Output: Vector of coeff
+	*/
+	std::vector<float> calc_coeff(std::vector<cv::Point> s1, std::vector<cv::Point> s2, std::vector<cv::Point> s3, std::vector<cv::Point> s4, float angle);
 	
 	/*
 	* Brief: Calculates the perpendicular distance between the line and a given point
@@ -66,4 +79,11 @@ private:
 	* Output: Perpendicular distance
 	*/
 	float perp_dist_from_line_to_point(cv::Point p1, cv::Point p2, cv::Point p0);
+
+	/*
+	* Brief: Calculate the sum of points
+	* Input: Vector of points
+	* Output: Value of sum
+	*/
+	cv::Point sum_contour(std::vector<cv::Point> v);
 };	
