@@ -1,22 +1,26 @@
+set(USE_CV_PLOT TRUE)
+set(USE_OPENCV TRUE)
+
 file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*/*.h")
 add_library (algorithms ${filenames})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 target_include_directories (algorithms PUBLIC)
 
 # Adding opencv
-set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
-include_directories("${OPENCV_DIR}/include")
-link_directories("${OPENCV_DIR}/lib")
-#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
-#Debug
-#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
-
-#Release
-file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
-
-target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
+if (USE_OPENCV)
+	message(Adding Opencv)
+	set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
+	include_directories("${OPENCV_DIR}/include")
+	link_directories("${OPENCV_DIR}/lib")
+	#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
+	target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
+endif(USE_OPENCV)
 
 # Adding eigen
 set(Eigen3_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/eigen-3.3.8/")
 include_directories("${Eigen3_DIR}")
 
+if (USE_CV_PLOT)
+	include_directories("${CMAKE_SOURCE_DIR}/external_depenedencies/cv-plot-1.2.1/CvPlot/inc")
+endif(USE_CV_PLOT)
