@@ -4,3 +4,6 @@
 [submodule "helper/Config_Reader_Cpp"]
 	path = helper/Config_Reader_Cpp
 	url = https://github.com/kshashankrao/Config_Reader_Cpp.git
+[submodule "external_depenedencies/Config_Reader_Cpp"]
+	path = external_depenedencies/Config_Reader_Cpp
+	url = https://github.com/kshashankrao/Config_Reader_Cpp.git
