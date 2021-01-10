@@ -32,7 +32,7 @@ if (USE_OPENCV)
 	include_directories("${OPENCV_DIR}/include")
 	link_directories("${OPENCV_DIR}/lib")
 	#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
-	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
+	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
 	target_link_libraries(ml PUBLIC "${OPENCV_LIBRARIES}")
 endif(USE_OPENCV)
 
