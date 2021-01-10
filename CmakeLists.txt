@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8.9)
 project(Machine_Learning C CXX)
 
 set(USE_OPENCV TRUE)
-set(USE_CV_PLOT FALSE)
+set(USE_PYTORCH FALSE)
+set(USE_CV_PLOT TRUE)
 
 if(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
@@ -22,7 +23,7 @@ add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/examples")
 
 set_target_properties(ml PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries (ml PUBLIC  algorithms examples )
+target_link_libraries (ml PUBLIC  algorithms examples)
 
 # Adding opencv
 if (USE_OPENCV)
@@ -31,9 +32,17 @@ if (USE_OPENCV)
 	include_directories("${OPENCV_DIR}/include")
 	link_directories("${OPENCV_DIR}/lib")
 	#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
-	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
+	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
 	target_link_libraries(ml PUBLIC "${OPENCV_LIBRARIES}")
 endif(USE_OPENCV)
+
+# Adding pytorch
+if (USE_PYTORCH)
+	message(Adding Pytorch)
+	set(Torch_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/libtorch/share/cmake/Torch")
+	find_package(Torch REQUIRED)
+	target_link_libraries(ml "${TORCH_LIBRARIES}")
+endif(USE_PYTORCH)
 
 if (USE_CV_PLOT)
 	include_directories("${CMAKE_SOURCE_DIR}/external_depenedencies/cv-plot-1.2.1/CvPlot/inc")
