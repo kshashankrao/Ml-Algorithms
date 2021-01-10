@@ -286,23 +286,23 @@ std::vector<cv::Point> best_rect_fit::get_coord_inscribe_rect(std::vector<float>
     cv::Point p3;
     cv::Point p4;
 
-    float slope = tan(angle);
+    float m = tan(angle);
 
     /* Top left */
-    p1.x = (slope * k[0] - k[2]) / (1 + powf(slope, 2));
-    p1.y = -(k[0] + slope * k[2]) / (1 + powf(slope, 2));
+    p1.x = (m * k[0] - k[2]) / (1 + powf(m, 2));
+    p1.y = -(k[0] + m * k[2]) / (1 + powf(m, 2));
 
     /* Top right */
-    p2.x = (slope * k[0] - k[3]) / (1 + powf(slope, 2));
-    p2.y = -(k[0] + slope * k[3]) / (1 + powf(slope, 2));
+    p2.x = (m * k[0] - k[3]) / (1 + powf(m, 2));
+    p2.y = -(k[0] + m * k[3]) / (1 + powf(m, 2));
     
     /* Bottom left */
-    p3.x = (slope * k[1] - k[2]) / (1 + powf(slope, 2));
-    p3.y = -(k[1] + slope * k[2]) / (1 + powf(slope, 2));
+    p3.x = (m * k[1] - k[2]) / (1 + powf(m, 2));
+    p3.y = -(k[1] + m * k[2]) / (1 + powf(m, 2));
     
     /* Bottom Right */
-    p4.x = (slope * k[1] - k[3]) / (1 + powf(slope, 2));
-    p4.y = -(k[1] + slope * k[3]) / (1 + powf(slope, 2));
+    p4.x = (m * k[1] - k[3]) / (1 + powf(m, 2));
+    p4.y = -(k[1] + m * k[3]) / (1 + powf(m, 2));
 
     return {p1, p2, p4, p3};
 }
@@ -316,19 +316,19 @@ float best_rect_fit::euclidean_dist(cv::Point p1, cv::Point p2)
 std::vector<float> best_rect_fit::calc_coeff(std::vector<cv::Point> s1, std::vector<cv::Point> s2, std::vector<cv::Point> s3, std::vector<cv::Point> s4, float angle)
 {
     float k1, k2, k3, k4;
-    float slope = 1 / tan(angle);
+    float m = tan(angle);
 
     auto sum1 = sum_contour(s1);
-    k1 = (slope * sum1.x - sum1.y) / s1.size();
+    k1 = (m * sum1.x - sum1.y) / s1.size();
     
     auto sum2 = sum_contour(s2);
-    k2 = (slope * sum2.x - sum2.y) / s2.size();
+    k2 = (m * sum2.x - sum2.y) / s2.size();
     
-    auto sum3 = sum_contour(s3);
-    k3 = (sum3.x + slope * sum3.y) / -(s3.size());
+    auto sum3 = sum_contour(s4);
+    k3 = -(sum3.x + m * sum3.y) / (s3.size());
 
-    auto sum4 = sum_contour(s4);
-    k4 = (sum4.x + slope * sum4.y) / -(s4.size());
+    auto sum4 = sum_contour(s3);
+    k4 = -(sum4.x + m * sum4.y) / (s4.size());
 
     return {k1, k2, k3, k4};
 }
