@@ -29,4 +29,4 @@ if (USE_CONFIG_READER)
 	include_directories ("${CMAKE_SOURCE_DIR}/external_depenedencies/Config_Reader_Cpp/src") 
 	file(GLOB_RECURSE config_reader_filenames "${CMAKE_SOURCE_DIR}/external_depenedencies/Config_Reader_Cpp/src/*")
 	target_sources(algorithms PRIVATE "${config_reader_filenames}")
-
+endif(USE_CONFIG_READER)
