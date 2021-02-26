@@ -1,15 +1,10 @@
 #include "image_proc_algorithms/best_rect_fit/best_rect_fit.h"
-
-#include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <iostream>
-#include <memory>
 
-int main()
+int main(int argc, char** argv)
 {
 	best_rect_fit b;
-	cv::Mat image = cv::imread("D:\\DeepLearning\\Algorithms\\Machine_Learning\\data\\blob.png");
+	cv::Mat image = cv::imread(argv[1]);
 	b.process(image);
 	return 0;
 }
