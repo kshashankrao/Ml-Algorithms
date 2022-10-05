@@ -1,24 +1,24 @@
+project(algorithms)
 set(USE_CV_PLOT TRUE)
 set(USE_OPENCV TRUE)
 set(USE_CONFIG_READER FALSE)
-file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*/*.h")
+file(GLOB_RECURSE filenames "${CMAKE_CURRENT_SOURCE_DIR}/*/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*/*.h")
 add_library (algorithms ${filenames})
-add_subdirectory(AttitudeMathLibrary)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 target_include_directories (algorithms PUBLIC)
 
-# Adding opencv
+# # Adding opencv
 if (USE_OPENCV)
 	message(Adding Opencv)
 	set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
 	include_directories("${OPENCV_DIR}/include")
 	link_directories("${OPENCV_DIR}/lib")
-	#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
-	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
+	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
 	target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
 endif(USE_OPENCV)
 
-# Adding eigen
+# # Adding eigen
 set(Eigen3_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/eigen-3.3.8/")
 include_directories("${Eigen3_DIR}")
 
