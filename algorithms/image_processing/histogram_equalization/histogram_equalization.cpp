@@ -1,6 +1,6 @@
 #include "histogram_equalization.h"
-#include <opencv2\imgproc.hpp>
-#include <opencv2\highgui.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
 #define CVPLOT_HEADER_ONLY
 #include <CvPlot/cvplot.h>
 

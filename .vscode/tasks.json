@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run CMake in build folder",
+      "type": "shell",
+      "command": "cmake ..",
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

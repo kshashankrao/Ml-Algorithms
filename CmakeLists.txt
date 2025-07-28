@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.21)
 project(Machine_Learning C CXX)
 
 set(USE_OPENCV TRUE)
@@ -15,6 +15,7 @@ add_executable(ml ${SOURCES})
 # Include the path of packages in main.cpp
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
+add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/data_types")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/helper")
 
@@ -22,15 +23,20 @@ set_target_properties(ml PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries (ml PUBLIC  algorithms)
 
 # Adding opencv
-if (USE_OPENCV)
-	message(Adding Opencv)
+if (USE_OPENCV AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	include_directories(/usr/include/opencv4)
+	find_package(OpenCV REQUIRED)
+	include_directories(${OpenCV_INCLUDE_DIRS})
+	target_link_libraries(ml PUBLIC ${OpenCV_LIBS})
+elseif (USE_OPENCV AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	message("Adding Opencv")
 	set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
 	include_directories("${OPENCV_DIR}/include")
 	link_directories("${OPENCV_DIR}/lib")
 	#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
 	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
 	target_link_libraries(ml PUBLIC "${OPENCV_LIBRARIES}")
-endif(USE_OPENCV)
+endif()
 
 # Adding pytorch
 if (USE_PYTORCH)

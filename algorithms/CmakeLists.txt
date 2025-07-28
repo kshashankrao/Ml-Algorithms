@@ -8,15 +8,21 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${filenames})
 target_include_directories (algorithms PUBLIC)
 
 # # Adding opencv
-if (USE_OPENCV)
-	message(Adding Opencv)
+# Adding opencv
+if (USE_OPENCV AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	include_directories(/usr/include/opencv4)
+	find_package(OpenCV REQUIRED)
+	include_directories(${OpenCV_INCLUDE_DIRS})
+	target_link_libraries(ml PUBLIC ${OpenCV_LIBS})
+elseif (USE_OPENCV AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	message("Adding Opencv")
 	set(OPENCV_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/opencv")
 	include_directories("${OPENCV_DIR}/include")
 	link_directories("${OPENCV_DIR}/lib")
-	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
-	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412d.lib")
-	target_link_libraries(algorithms PUBLIC "${OPENCV_LIBRARIES}")
-endif(USE_OPENCV)
+	#file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/*")
+	file(GLOB OPENCV_LIBRARIES "${OPENCV_DIR}/lib/opencv_world412.lib")
+	target_link_libraries(ml PUBLIC "${OPENCV_LIBRARIES}")
+endif()
 
 # # Adding eigen
 set(Eigen3_DIR "${CMAKE_SOURCE_DIR}/external_depenedencies/eigen-3.3.8/")

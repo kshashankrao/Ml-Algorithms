@@ -1,6 +1,8 @@
 ﻿#include "best_rect_fit.h"
-#include <opencv2\imgproc.hpp>
-#include <opencv2\highgui.hpp>
+// #include <opencv2\imgproc.hpp>
+// #include <opencv2\highgui.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
 #include <iostream>
 #include <math.h>
 
@@ -336,7 +338,7 @@ std::vector<float> best_rect_fit::calc_coeff(std::vector<cv::Point> s1, std::vec
 float best_rect_fit::perp_dist_from_line_to_point(cv::Point p1, cv::Point p2, cv::Point p0)
 {
     float numer = std::abs((p2.x - p1.x) * (p1.y - p0.y) - (p1.x - p0.x) * (p2.y - p1.y));
-    float denom = std::sqrtf(powf((p2.x - p1.x), 2) + powf((p2.y - p1.y), 2));
+    float denom = std::sqrt(powf((p2.x - p1.x), 2) + powf((p2.y - p1.y), 2));
     float dist = numer / denom;
     return dist;
 }
