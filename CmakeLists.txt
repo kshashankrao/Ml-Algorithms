@@ -15,7 +15,6 @@ add_executable(ml ${SOURCES})
 # Include the path of packages in main.cpp
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
 add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/algorithms")
-add_subdirectory ("${CMAKE_CURRENT_SOURCE_DIR}/data_types")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/helper")
 
