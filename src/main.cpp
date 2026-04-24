@@ -2,6 +2,7 @@
 #include "image_processing/best_rect_fit/best_rect_fit.h"
 //#include "dsa/string/string_dsa.h"
 #include "dsa/dijkstra/dijkstra.h"
+#include "dsa/dfs_bfs/dfs_bfs.h"
 
 int main(int argc, char** argv)
 {
@@ -12,9 +13,11 @@ int main(int argc, char** argv)
 	dsa.reverse_string("Apple");*/
 
 	// Creating a LinkedList object
-	Dijkstra d;
-	d.process();
-
+	// Dijkstra d;
+	// d.process();
+	Dfs_Bfs dfs_bfs;
+	dfs_bfs.process();
+	
 	
 	
 	

@@ -7,7 +7,9 @@ set(USE_CV_PLOT TRUE)
 
 if(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-endif(MSVC)
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+endif()
 
 file(GLOB SOURCES "src/*")
 add_executable(ml ${SOURCES})
