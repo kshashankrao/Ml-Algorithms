@@ -14,6 +14,7 @@ float Bbox2DUtils::iou(const Bbox2D &box1, const Bbox2D &box2)
     float intersection_area = inter_w * inter_h;
     if (intersection_area <= 0) return 0.0f;
 
+    // Remove the intersection component, so that it is not considered twice in the final iou formula.
     float union_area = box1.area() + box2.area() - intersection_area;
     return (union_area > 0) ? (intersection_area / union_area) : 0.0f;
 }
